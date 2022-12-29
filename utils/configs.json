@@ -1,0 +1,183 @@
+{
+    "prefix": "!",
+
+    "token": "",
+
+    "mongokey": "",
+
+  "roles":{
+
+    "staff": {
+
+      "admin": "id int",
+
+      "mod": "id int",
+
+      "suporte": "id int",
+
+      "staff": "id int"
+
+    },
+
+    "niveis":{
+
+      "nvl10": "id int",
+
+      "nvl20": "id int",
+
+      "nvl30": "id int",
+
+      "nvl40": "id int",
+
+      "nvl50": "id int",
+
+      "nvl60": "id int",
+
+      "nvl70": "id int",
+
+      "nvl80": "id int",
+
+      "nvl90": "id int",
+
+      "nvl100": "id int"
+      
+      },
+
+    "equipes":{
+
+      "equipecall": {
+
+        "submod": "id int",
+
+        "staffcall": "id int",
+
+        "movimenta": "id int"
+
+      },
+
+      "equipechat": {
+
+        "liderchat": "id int",
+
+        "staffchat": "id int", 
+
+        "movimenta": "id int"
+        
+      },
+
+      "equipeeventos": {
+
+        "chefeeventos": "id int",
+
+        "apresentador": "id int",
+
+        "auxiliar": "id int"
+
+      },
+
+      "equipediv": {
+
+        "promoters": "id int",
+
+        "div": "id int"
+
+      },
+
+      "equipemidia": {
+
+        "chefemidia": "id int",
+
+        "equipemidia": "id int"
+
+      }
+
+    },
+
+    "adv": {
+
+      "adv1": "id int",
+
+      "adv2": "id int",
+
+      "adv3": "id int"
+
+    },
+
+    "outras":{
+
+      "standby": "id int",
+
+      "verificado": "id int",
+
+      "naoverificado": "id int",
+
+      "mute": "id int",
+
+      "ntb": "id int",
+
+      "nv100" : "id int",
+
+      "callpv": "id int",
+
+      "levelup": "id int"
+
+    }
+
+  },
+
+  "logs":{
+
+    "chat": "id int",
+
+    "call": "id int",
+
+    "microfone": "id int",
+
+    "mod": "id int",
+
+    "membros": "id int",
+
+    "cargos": "id int",
+
+    "usocomandos": "id int"
+
+  },
+
+  "chats":{
+
+    "ticket": "id int",
+
+    "ausencia": "id int",
+
+    "cmdstf": "id int",
+
+    "resumsemana": "id int",
+
+    "sugestsemana": "id int",
+
+    "oqprefere": "id int",
+
+    "ids": {
+
+      "cmdstf": "id int",
+
+      "tck": "id int"
+
+    }
+
+  },
+
+  "catego":{
+
+    "callpv": "id int",
+
+    "ticket": "id int"
+
+  },
+
+  "calls":{
+
+    "espera": "id int"
+
+  }
+}
