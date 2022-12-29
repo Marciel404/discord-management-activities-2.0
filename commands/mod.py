@@ -13,11 +13,11 @@ class commandsMod(commands.Cog):
     @option(name = "channel", description = "Escolha o chat para mandar",)
     async def buttonstaff(self, interaction: discord.Interaction, channel: discord.TextChannel = None):
         
-        if channel == None: channel == interaction.channel
+        if channel == None: channel = interaction.channel
         
-        await interaction.response.send_message('Foi')
+        await interaction.response.send_message('Foi', ephemeral = True)
                 
-        await channel.send_message("", view = ComandosStaff())
+        await channel.send("", view = ComandosStaff())
     
     @slash_command(name = "ticketmessage", description = "Envia a mensagem do ticket")
     @option(name = 'channel', description = "Chat para enviar a mensagem")

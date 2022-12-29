@@ -3,7 +3,7 @@ import discord
 from pytz import timezone
 from datetime import datetime
 from discord.ext import commands, tasks
-from utils.configs import configData
+from utils.loader import configData
 
 class tasks(commands.Cog):
 
@@ -50,11 +50,7 @@ class tasks(commands.Cog):
 
                 await channel.edit(overwrites = overwrites)
 
-                await channel.send(
-    f'''
-Chat aberto!!! 
-Venha indicar algo para os outros membros😃
-    ''')
+                await channel.send(f'Chat aberto!!!\nVenha indicar algo para os outros membros😃')
 
         else:
 
@@ -114,12 +110,7 @@ Venha indicar algo para os outros membros😃
 
                 await channel.edit(overwrites = overwrites)
 
-                await channel.send(
-    f'''
-Chat aberto!!! 
-Vem contar algo sobre o que rolou na sua semana 😃 
-||{verifi.mention}||
-    ''')
+                await channel.send(f'Chat aberto!!!\nVem contar algo sobre o que rolou na sua semana 😃\n||{verifi.mention}||')
 
         else:
 
