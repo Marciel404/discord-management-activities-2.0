@@ -7,11 +7,7 @@ from db.mod import *
 
 async def abrirTicket(selfbot, interaction):
 
-    data_e_hora_atuais = datetime.now()
-
-    fuso_horario = timezone('America/Sao_Paulo')
-
-    dt = data_e_hora_atuais.astimezone(fuso_horario)
+    dt = datetime.now(timezone('America/Sao_Paulo'))
 
     Chat = discord.utils.get(interaction.guild.channels, name=f'ticket-{interaction.user.id}')
 

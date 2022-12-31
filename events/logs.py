@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-
+from datetime import datetime
+from pytz import timezone
 
 class logs(commands.Cog):
     
@@ -11,13 +12,7 @@ class logs(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, antes:discord.Message, depois: discord.Message):
 
-        data_e_hora_atuais = datetime.now()
-
-        fuso_horario = timezone('America/Sao_Paulo')
-
-        data_e_hora_sao_paulo = data_e_hora_atuais.astimezone(fuso_horario)
-
-        dt = data_e_hora_sao_paulo.strftime('%H:%M %d/%m/%Y')
+        dt = datetime.now(timezone('America/Sao_Paulo'))
 
         if antes.author.bot:
 
@@ -50,7 +45,7 @@ class logs(commands.Cog):
 
         e.set_author(name = f'{antes.author.name}#{antes.author.discriminator}', icon_url = antes.author.display_avatar)
 
-        e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+        e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
         await channel.send(embed = e)
 
@@ -65,13 +60,7 @@ class logs(commands.Cog):
 
             return
 
-        data_e_hora_atuais = datetime.now()
-
-        fuso_horario = timezone('America/Sao_Paulo')
-
-        data_e_hora_sao_paulo = data_e_hora_atuais.astimezone(fuso_horario)
-
-        dt = data_e_hora_sao_paulo.strftime('%H:%M %d/%m/%Y')
+        dt = datetime.now(timezone('America/Sao_Paulo'))
 
         channel = self.bot.get_channel(configData['logs']['chat'])
 
@@ -90,20 +79,14 @@ class logs(commands.Cog):
 
         e.set_author(name = f'{message.author.name}#{message.author.discriminator}', icon_url = message.author.display_avatar)
 
-        e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+        e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
         await channel.send(embed = e)
 
     @commands.Cog.listener()
     async def on_member_update(self, antes:discord.User, depois:discord.User):
 
-        data_e_hora_atuais = datetime.now()
-
-        fuso_horario = timezone('America/Sao_Paulo')
-
-        data_e_hora_sao_paulo = data_e_hora_atuais.astimezone(fuso_horario)
-
-        dt = data_e_hora_sao_paulo.strftime('%H:%M %d/%m/%Y')
+        dt = datetime.now(timezone('America/Sao_Paulo'))
 
         channel = self.bot.get_channel(configData['logs']['membros'])
 
@@ -122,7 +105,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{antes.name}#{antes.discriminator}', icon_url = antes.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel.send(embed = e)
 
@@ -135,13 +118,7 @@ class logs(commands.Cog):
     @commands.Cog.listener()
     async def on_user_update(self, antes:discord.User, depois:discord.User):
 
-        data_e_hora_atuais = datetime.now()
-
-        fuso_horario = timezone('America/Sao_Paulo')
-
-        data_e_hora_sao_paulo = data_e_hora_atuais.astimezone(fuso_horario)
-
-        dt = data_e_hora_sao_paulo.strftime('%H:%M %d/%m/%Y')
+        dt = datetime.now(timezone('America/Sao_Paulo'))
 
         channel = self.bot.get_channel(configData['logs']['membros'])
 
@@ -159,20 +136,14 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{antes.name}#{antes.discriminator}', icon_url = antes.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel.send(embed = e)
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member:discord.Member, before:discord.VoiceState, after:discord.VoiceState):
 
-        data_e_hora_atuais = datetime.now()
-
-        fuso_horario = timezone('America/Sao_Paulo')
-
-        data_e_hora_sao_paulo = data_e_hora_atuais.astimezone(fuso_horario)
-
-        dt = data_e_hora_sao_paulo.strftime('%H:%M %d/%m/%Y')
+        dt = datetime.now(timezone('America/Sao_Paulo'))
 
         channel = self.bot.get_channel(configData['logs']['call'])
 
@@ -192,7 +163,7 @@ class logs(commands.Cog):
 
                 e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-                e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+                e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
                 await channel.send(embed = e)
 
@@ -210,7 +181,7 @@ class logs(commands.Cog):
 
                 e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-                e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+                e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
                 await channel.send(embed = e)
 
@@ -226,7 +197,7 @@ class logs(commands.Cog):
             
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel.send(embed = e)
 
@@ -242,7 +213,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
         
@@ -258,7 +229,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
 
@@ -274,7 +245,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
 
@@ -290,7 +261,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
 
@@ -306,7 +277,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
 
@@ -322,7 +293,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
 
@@ -338,7 +309,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
         
@@ -354,7 +325,7 @@ class logs(commands.Cog):
 
             e.set_author(name = f'{member.name}#{member.discriminator}', icon_url = member.display_avatar)
 
-            e.set_footer(text = f'生 HAYLENG 死 às {dt}')
+            e.set_footer(text = f'生 HAYLENG 死 às {dt.strftime("%H:%M %d/%m/%Y")}')
 
             await channel2.send(embed = e)
 

@@ -16,11 +16,7 @@ class tasks(commands.Cog):
 
         guild = self.bot.get_guild(configData['guild'])
 
-        data_e_hora_atuais = datetime.now()
-
-        fuso_horario = timezone('America/Sao_Paulo')
-
-        x = data_e_hora_atuais.astimezone(fuso_horario)
+        x = datetime.now(timezone('America/Sao_Paulo'))
 
         if x.weekday() == 4:
 

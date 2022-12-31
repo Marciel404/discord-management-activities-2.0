@@ -1,6 +1,5 @@
 import discord
 
-from discord.ext import commands
 from utils.loader import  configData
 from db.mod import ausendb, desausendb
 from db.mod import advdb, rmvadvdb
@@ -11,13 +10,7 @@ from classes.selectmenus import *
 
 async def ausencia(selfbot, interaction):
         
-    data_e_hora_atuais = datetime.now()
-
-    fuso_horario = timezone('America/Sao_Paulo')
-
-    data_e_hora_sao_paulo = data_e_hora_atuais.astimezone(fuso_horario)
-
-    dt = data_e_hora_sao_paulo.strftime('%d/%m/%Y')
+    dt = datetime.now(timezone('America/Sao_Paulo'))
 
     def check(m):
         return m.content and m.author.id == interaction.user.id
@@ -26,7 +19,7 @@ async def ausencia(selfbot, interaction):
 
         role = discord.utils.get(interaction.guild.roles, id = configData['roles']['outras']['standby'])
 
-        ausente = self.bot.get_channel(configData['chats']['ausencia'])
+        ausente = selfbot.get_channel(configData['chats']['ausencia'])
         
         await interaction.response.defer()
 
@@ -38,13 +31,13 @@ async def ausencia(selfbot, interaction):
 
             await interaction.user.add_roles(role)
 
-            await ausente.send(f'{interaction.user.name} entrou em ausencia às {dt}\nMotivo: {msg.content}')
+            await ausente.send(f'{interaction.user.name} entrou em ausencia às {dt.strftime("%d/%m/%Y")}\nMotivo: {msg.content}')
 
             await interaction.followup.send(f'Agora você está ausente {interaction.user.mention}', ephemeral = True)
 
             await msg.delete()
 
-            await ausendb(interaction.user,msg.content,dt)
+            await ausendb(interaction.user,msg.content,dt.strftime('%d/%m/%Y'))
 
             return
 
@@ -54,7 +47,7 @@ async def ausencia(selfbot, interaction):
 
             await ausente.send(f'{interaction.user.name} Saiu da ausencia às {dt}')
 
-            await interaction.response.send_message('Você não está mais ausente', delete_after = 2, ephemeral = True)
+            await interaction.response.send_message('Você não está mais ausente', ephemeral = True)
 
             await desausendb(interaction.user)
 
@@ -64,7 +57,7 @@ async def ausencia(selfbot, interaction):
 
         await ausente.send(f'{interaction.user.name} clicou no ausente mas não fez nada')
             
-async def banMember(self, interaction):
+async def banMember(selfbot, interaction):
 
     if discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['staff']) in interaction.user.roles \
     or interaction.user.guild_permissions.ban_members:
@@ -75,13 +68,13 @@ async def banMember(self, interaction):
     
     await interaction.response.send_message('Você não tem permissão para usar isso', ephemeral = True)
 
-async def confirmBan(selfBot, interaction):
+async def confirmBan(selfbot, interaction):
     
     if interaction.user.guild_permissions.ban_members \
     or discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['admin']) in interaction.user.roles\
     or discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['mod']) in interaction.user.roles:
         
-        l1 = self.bot.get_channel(configData['logs']['mod'])
+        l1 = selfbot.get_channel(configData['logs']['mod'])
         membro = interaction.guild.get_member(int(interaction.message.embeds[0].footer.text))
         author = interaction.message.embeds[0].fields[1].value
         motivo = interaction.message.embeds[0].fields[2].value
@@ -89,13 +82,13 @@ async def confirmBan(selfBot, interaction):
         guild = interaction.guild
 
         E = discord.Embed(title = 'Ban', description = f'Pessoa banida: {membro.name} \nQuem baniu: {author}\nAprovado por: {interaction.user.mention} \nmotivo: {motivo}')
-        E.set_footer(text = f'id: {self.membro.id}')
+        E.set_footer(text = f'id: {membro.id}')
 
         await l1.send(embed = E)
 
         await interaction.message.delete()
 
-        await interaction.response.send_message(f'{self.membro.name} banido com sucesso', ephemeral = True)
+        await interaction.response.send_message(f'{membro.name} banido com sucesso', ephemeral = True)
 
         
         await interaction.guil.ban(
@@ -266,115 +259,3 @@ async def advertência(selfbot, interaction):
         return
 
     await interaction.response.send_message('O que ira fazer?', ephemeral = True, view = adcrmvadivertência())
-
-async def adcCargosEquipes(selfbot, interaction):
-
-    if discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['admin']) in interaction.user.roles \
-    or discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['mod']) in interaction.user.roles \
-    or discord.utils.get(interaction.guild.roles, id = configData['roles']['equipes']['equipeeventos']['chefeeventos']) in interaction.user.roles \
-    or discord.utils.get(interaction.guild.roles, id = configData['roles']['equipes']['equipecall']['submod']) in interaction.user.roles \
-    or discord.utils.get(interaction.guild.roles, id = configData['roles']['equipes']['equipechat']['liderchat']) in interaction.user.roles \
-    or discord.utils.get(interaction.guild.roles, id = configData['roles']['equipes']['equipediv']['promoters']) in interaction.user.roles \
-    or discord.utils.get(interaction.guild.roles, id = configData['roles']['equipes']['equipemidia']['chefemidia']) in interaction.user.roles:
-
-        await interaction.response.send_message('Oque ira fazer?', ephemeral = True, view = adcrmvcargosequipes(selfbot))
-
-    else:
-    
-        await interaction.response.send_message('Você não tem permissão para usar isto', ephemeral = True)
-
-        return
-
-async def confirmAdcCap(selfbot, interaction):
-    
-    member = interaction.guild.get_member(
-        int(interaction.message.embeds[0].footer.text)
-    )
-    author = interaction.guild.get_member(
-        int(interaction.message.embeds[0].fields[1].value.strip('<@>'))
-    )
-    cargo = discord.utils.get(
-        interaction.guild.roles,
-        id = int(interaction.message.embeds[0].fields[2].value.strip('<@&>'))
-    )
-
-    channel = interaction.guild.get_channel(configData['logs']['cargos'])
-
-    admin = discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['admin'])
-
-    mod = discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['mod'])
-
-    e = discord.Embed(title = 'Adição cargo')
-
-    e.add_field(name = 'Qual cargo adicionado', value = cargo.mention)
-
-    e.add_field(name = 'Quem adicionou', value = author.mention, inline = False)
-
-    e.add_field(name = 'Foi adicionado a', value = member.mention)
-
-    e.add_field(name = 'Aprovado por', value = interaction.user.mention, inline = False)
-
-    if admin in interaction.user.roles:
-
-        await member.add_roles(cargo)
-
-        await interaction.message.delete()
-
-        await channel.send(embed = e)
-
-    else:
-
-        await interaction.response.send_message('Você não tem permissão para usar isso', ephemeral = True)
-
-async def confirmAdcEquipe(selfbot, interaction):
-    
-    member = interaction.guild.get_member(
-        int(interaction.message.embeds[0].footer.text)
-    )
-    author = interaction.guild.get_member(
-        int(interaction.message.embeds[0].fields[1].value.strip('<@>'))
-    )
-    cargo = discord.utils.get(
-        interaction.guild.roles,
-        id = int(interaction.message.embeds[0].fields[2].value.strip('<@&>'))
-    )
-    channel = interaction.guild.get_channel(configData['logs']['cargos'])
-    admin = discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['admin'])
-    mod = discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['mod'])
-
-    e = discord.Embed(title = 'Adição cargo')
-
-    e.add_field(name = 'Qual cargo adicionado', value = cargo.mention)
-
-    e.add_field(name = 'Quem adicionou', value = author.mention, inline = False)
-
-    e.add_field(name = 'Foi adicionado a', value = member.mention)
-
-    e.add_field(name = 'Aprovado por', value = interaction.user.mention, inline = False)
-
-    if admin in interaction.user.roles \
-    or mod in interaction.user.roles:
-
-        await member.add_roles(cargo)
-
-        await interaction.message.delete()
-
-        await channel.send(embed = e)
-
-    else:
-
-        await interaction.response.send_message('Você não tem permissão para usar isso', ephemeral = True)
-
-async def denyAdcCap(selfbot, interaction):
-    
-    admin = discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['admin'])
-    mod = discord.utils.get(interaction.guild.roles, id = configData['roles']['staff']['mod'])
-    
-    if admin in interaction.user.roles:
-
-        await interaction.message.delete()
-
-    else:
-
-        await interaction.response.send_message('Você não tem permissão para usar isso', ephemeral = True)
-
